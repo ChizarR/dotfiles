@@ -122,21 +122,22 @@ widgets = [
     ),
     widget.Sep(),
     widget.Prompt(),
-    widget.WindowName(),
+    widget.WindowName(format="{name}"),
     widget.Sep(),
-    widget.Chord(
-        chords_colors={
-            "launch": ("#ff0000", "#ffffff"),
-        },
-        name_transform=lambda name: name.upper(),
-    ),
-    widget.Wlan(interface="wlp4s0", format="[ {essid} {percent:2.0%} ]["),
+    # widget.Chord(
+    #     chords_colors={
+    #         "launch": ("#ff0000", "#ffffff"),
+    #     },
+    #     name_transform=lambda name: name.upper(),
+    # ),
+    widget.Wlan(interface="wlp4s0", format="[ {essid} {percent:2.0%} ] ["),
     widget.KeyboardLayout(
         configured_keyboards=["de", "ru"],
         option="grp:alt_shift_toggle"
     ),
-    widget.Battery(format="][ {percent:2.0%}"),
-    widget.Clock(format="][ %A, %B %d - %H:%M ]"),
+    widget.Volume(fmt="] [ Vol: {} ]"),
+    widget.Battery(format="[ {percent:2.0%} ]"),
+    widget.Clock(format="[ %A, %B %d - %H:%M ]"),
 ]
 
 screens = [
