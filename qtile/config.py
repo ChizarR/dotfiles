@@ -91,10 +91,10 @@ layout_settings = {
 }
 
 layouts = [
+    # layout.MonadTall(**layout_settings),
     layout.Columns(**layout_settings),
     layout.Max(**layout_settings),
-    layout.Stack(num_stacks=2),
-    # layout.MonadTall(**layout_settings),
+    # layout.Stack(num_stacks=2),
     # layout.Bsp(**layout_settings),
     # layout.Matrix(**layout_settings),
     # layout.MonadWide(**layout_settings),
@@ -103,7 +103,7 @@ layouts = [
     # layout.TreeTab(**layout_settings),
     # layout.VerticalTile(**layout_settings),
     # layout.Zoomy(**layout_settings),
-    layout.Floating(**layout_settings),
+    # layout.Floating(**layout_settings),
 ]
 
 widget_defaults = dict(
@@ -135,6 +135,7 @@ widgets = [
         configured_keyboards=["de", "ru"],
         option="grp:alt_shift_toggle"
     ),
+    widget.Battery(format="][ {percent:2.0%}"),
     widget.Clock(format="][ %A, %B %d - %H:%M ]"),
 ]
 
@@ -143,6 +144,7 @@ screens = [
         bottom=bar.Bar(
             widgets,
             22,
+            background="#111213",
             border_width=[1, 1, 1, 1],  # Draw top and bottom borders
             border_color=[border_focus for _ in range(4)] # Borders are magenta
         ),
