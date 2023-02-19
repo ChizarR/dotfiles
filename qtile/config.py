@@ -6,6 +6,9 @@ from libqtile.lazy import lazy
 mod = "mod4"
 terminal = "kitty"
 browser = "brave-browser"
+filemanager = "thunar"
+
+
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
@@ -41,19 +44,34 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod, "shift"], "c", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 
     # Apps
-    Key([mod], "b", lazy.spawn(browser)),
-    
+    Key(
+        [mod], "b",
+        lazy.spawn(browser),
+        desc="Browser"
+    ),
+    Key(
+        [mod], "f",
+        lazy.spawn(filemanager),
+        desc="Filemanager"
+    ),
+
+    # Sys
     Key([], "XF86AudioRaiseVolume",lazy.spawn("amixer set Master 3%+")),
     Key([], "XF86AudioLowerVolume",lazy.spawn("amixer set Master 3%-")),
     Key([], "XF86AudioMute",lazy.spawn("amixer set Master toggle")),
     Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight +5")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -5")),
+    Key(
+        ["shift"], "alt_l",
+        lazy.widget["keyboardlayout"].next_keyboard(),
+        desc="Next keyboar layout"
+    )
 ]
 
 
@@ -124,20 +142,13 @@ widgets = [
     widget.Prompt(),
     widget.WindowName(format="{name}"),
     widget.Sep(),
-    # widget.Chord(
-    #     chords_colors={
-    #         "launch": ("#ff0000", "#ffffff"),
-    #     },
-    #     name_transform=lambda name: name.upper(),
-    # ),
     widget.Wlan(interface="wlp4s0", format="[ {essid} {percent:2.0%} ] ["),
     widget.KeyboardLayout(
         configured_keyboards=["de", "ru"],
-        option="grp:alt_shift_toggle"
     ),
     widget.Volume(fmt="] [ Vol: {} ]"),
     widget.Battery(format="[ {percent:2.0%} ]"),
-    widget.Clock(format="[ %A, %B %d - %H:%M ]"),
+    widget.Clock(format="[ %a, %b %d - %H:%M ]"),
 ]
 
 screens = [
