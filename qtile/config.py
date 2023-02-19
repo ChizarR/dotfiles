@@ -115,24 +115,27 @@ extension_defaults = widget_defaults.copy()
 
 widgets = [
     widget.CurrentLayout(fmt="[ {} ]"),
+    widget.Sep(),
     widget.GroupBox(
         rounded=False,
         highlight_method="line",
     ),
+    widget.Sep(),
     widget.Prompt(),
     widget.WindowName(),
+    widget.Sep(),
     widget.Chord(
         chords_colors={
             "launch": ("#ff0000", "#ffffff"),
         },
         name_transform=lambda name: name.upper(),
     ),
-    widget.Wlan(interface="wlp4s0", format="[ {essid} {percent:2.0%} ]"),
+    widget.Wlan(interface="wlp4s0", format="[ {essid} {percent:2.0%} ]["),
     widget.KeyboardLayout(
         configured_keyboards=["de", "ru"],
         option="grp:alt_shift_toggle"
     ),
-    widget.Clock(format="[ %A, %B %d - %H:%M ]"),
+    widget.Clock(format="][ %A, %B %d - %H:%M ]"),
 ]
 
 screens = [
