@@ -9,7 +9,7 @@ from libqtile.lazy import lazy
 mod = "mod4"
 terminal = "kitty"
 browser = "brave-browser"
-filemanager = "thunar"
+filemanager = "kitty -T -x ranger"
 
 
 keys = [
