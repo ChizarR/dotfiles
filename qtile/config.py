@@ -1,4 +1,7 @@
-from libqtile import bar, layout, widget
+import os
+import subprocess
+
+from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 
@@ -26,11 +29,31 @@ keys = [
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    Key(
+        [mod, "control"], "h",
+        lazy.layout.grow_left().when(layout=["bsp", "columns"]),
+        lazy.layout.shrink().when(layout=["monadtall", "monadwide", "monadthreecol"]),
+        desc="Grow window to the left"
+    ),
+    Key(
+        [mod, "control"], "l",
+        lazy.layout.grow_right().when(layout=["bsp", "columns"]),
+        lazy.layout.grow().when(layout=["monadtall", "monadwide", "monadthreecol"]),
+        desc="Grow window to the right"
+    ),
+    Key(
+        [mod, "control"], "j",
+        lazy.layout.grow_down().when(layout=["bsp", "columns"]),
+        lazy.layout.grow().when(layout=["monadtall", "monadwide", "monadthreecol"]),
+        desc="Grow window down"
+    ),
+    Key(
+        [mod, "control"], "k",
+        lazy.layout.grow_up().when(layout=["bsp", "columns"]), 
+        lazy.layout.shrink().when(layout=["monadtall", "monadwide", "monadthreecol"]),
+        desc="Grow window up"
+    ),
+    Key([mod], "n", lazy.layout.reset(), desc="Reset all window sizes"),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -109,10 +132,10 @@ layout_settings = {
 }
 
 layouts = [
-    # layout.MonadTall(**layout_settings),
-    layout.Columns(**layout_settings),
+    layout.MonadTall(**layout_settings),
     layout.Max(**layout_settings),
-    # layout.Stack(num_stacks=2),
+    layout.Columns(**layout_settings),
+    # layout.Stack(num_stacks=2, **layout_settings),
     # layout.Bsp(**layout_settings),
     # layout.Matrix(**layout_settings),
     # layout.MonadWide(**layout_settings),
@@ -121,7 +144,7 @@ layouts = [
     # layout.TreeTab(**layout_settings),
     # layout.VerticalTile(**layout_settings),
     # layout.Zoomy(**layout_settings),
-    # layout.Floating(**layout_settings),
+    layout.Floating(**layout_settings),
 ]
 
 widget_defaults = dict(
@@ -132,7 +155,7 @@ widget_defaults = dict(
 extension_defaults = widget_defaults.copy()
 
 widgets = [
-    widget.CurrentLayout(fmt="[ {} ]"),
+    widget.CurrentLayoutIcon(scale=0.7),
     widget.Sep(),
     widget.GroupBox(
         rounded=False,
@@ -142,13 +165,18 @@ widgets = [
     widget.Prompt(),
     widget.WindowName(format="{name}"),
     widget.Sep(),
-    widget.Wlan(interface="wlp4s0", format="[ {essid} {percent:2.0%} ] ["),
+    widget.Systray(
+        icon_size=20,
+        padding = 4
+    ),
+    widget.Volume(fmt=" Vol: {} "),
+    widget.Battery(format="Bat: {percent:2.0%} "),
     widget.KeyboardLayout(
         configured_keyboards=["de", "ru"],
+        fmt="Lay: {} "
     ),
-    widget.Volume(fmt="] [ Vol: {} ]"),
-    widget.Battery(format="[ {percent:2.0%} ]"),
-    widget.Clock(format="[ %a, %b %d - %H:%M ]"),
+    widget.Sep(),
+    widget.Clock(format="%b %d - %H:%M"),
 ]
 
 screens = [
@@ -194,8 +222,12 @@ reconfigure_screens = True
 # focus, should we respect this or not?
 auto_minimize = True
 
-# When using the Wayland backend, this can be used to configure input devices.
-wl_input_rules = None
+
+@hook.subscribe.startup
+def autostart():
+    home = os.path.expanduser('~/.config/qtile/autostart.sh')
+    subprocess.Popen([home])
+
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
