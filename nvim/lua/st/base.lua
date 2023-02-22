@@ -47,6 +47,7 @@ vim.cmd("autocmd FileType typescript setlocal ts=2 sts=2 sw=2")
 vim.cmd("autocmd FileType json setlocal ts=2 sts=2 sw=2")
 vim.cmd("autocmd FileType python setlocal colorcolumn=80")
 vim.cmd("autocmd FileType markdown setlocal wrap nocursorline")
+vim.cmd("autocmd FileType cpp setlocal ts=2 sts=2 sw=2")
 
 local function open_nvim_tree(data)
   -- buffer is a directory
