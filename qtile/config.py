@@ -98,7 +98,7 @@ keys = [
 ]
 
 
-groups = [Group(i) for i in "12345"]
+groups = [Group(i) for i in "123456789"]
 
 for i in groups:
     keys.extend(
@@ -154,29 +154,61 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+sep_config = {
+    "foreground": border_focus,        
+    "size_percent": 100
+}
+
 widgets = [
     widget.CurrentLayoutIcon(scale=0.7),
-    widget.Sep(),
+    widget.Sep(**sep_config),
     widget.GroupBox(
-        rounded=False,
-        highlight_method="line",
+        margin_x=3,
+        padding_y=0.7,
+        rounded=True,
+        this_current_screen_border="5b2e99",
+        highlight_method="border",
+        hide_unused=True,
     ),
-    widget.Sep(),
+
+    widget.Sep(**sep_config),
     widget.Prompt(),
-    widget.WindowName(format="{name}"),
-    widget.Sep(),
+    widget.WindowName(format="{name}", empty_group_string="no active windows"),
+
+    widget.Sep(**sep_config),
     widget.Systray(
         icon_size=20,
         padding = 4
     ),
     widget.Volume(fmt=" Vol: {} "),
     widget.Battery(format="Bat: {percent:2.0%} "),
+
+    widget.Sep(**sep_config),
+    widget.TextBox(text = " CPU:"),
+    widget.CPUGraph(
+        line_width=1,
+        border_color="5b2e99",
+        border_width=1,
+        graph_color="abaaab",
+        type="line",
+    ),
+    widget.TextBox(text = " RAM:"),
+    widget.MemoryGraph(
+        line_width=1,
+        border_color="5b2e99",
+        border_width=1,
+        graph_color="abaaab",
+        type="line",
+    ),
+
+    widget.Sep(**sep_config),
     widget.KeyboardLayout(
         configured_keyboards=["de", "ru"],
-        fmt="Lay: {} "
+        fmt=" Lay: {} "
     ),
-    widget.Sep(),
-    widget.Clock(format="%b %d - %H:%M"),
+
+    widget.Sep(**sep_config),
+    widget.Clock(format=" %b %d - %H:%M "),
 ]
 
 screens = [
