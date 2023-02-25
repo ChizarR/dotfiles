@@ -203,7 +203,7 @@ widgets = [
 
     widget.Sep(**sep_config),
     widget.KeyboardLayout(
-        configured_keyboards=["de", "ru"],
+        configured_keyboards=["de qwerty", "ru"],
         fmt=" Lay: {} "
     ),
 
