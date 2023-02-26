@@ -98,6 +98,9 @@ return packer.startup(function(use)
   -- Nvimtree
   use "nvim-tree/nvim-tree.lua"
 
+  -- Maps helpers
+  use "folke/which-key.nvim"
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if PACKER_BOOTSTRAP then
